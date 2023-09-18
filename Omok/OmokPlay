@@ -1,0 +1,71 @@
+package Omok;
+
+import java.util.Scanner;
+
+public class OmokPlay {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        Player user = new Player("사용자", "O");
+        Player computer = new Player("컴퓨터", "X");
+        Board board = new Board(19);
+        play(board, user, computer);
+
+        int i = 0;
+        while (true) {
+            i++;
+
+            String colStr = " ";
+            int row = 0;
+
+            System.out.print("사용자 > ");
+            colStr = in.next().toUpperCase();
+            row = in.nextInt();
+
+            if (row <= board.size) {
+                board.game(colStr, row, "O");
+            } else {
+                System.out.println("숫자 똑바로 입력해라");
+                System.out.print("사용자 > ");
+                colStr = in.next();
+                row = in.nextInt();
+                board.game(colStr, row, "O");
+            }
+
+            board.print();
+
+            if (board.finish()) {
+                System.out.println("사용자 승 ! 바둑 끝");
+                break;
+            }
+
+            System.out.print("컴퓨터 > ");
+            colStr = in.next().toUpperCase();
+            row = in.nextInt();
+
+            if (row <= board.size) {
+                board.game(colStr, row, "X");
+            } else {
+                System.out.println("숫자 똑바로 입력해라");
+                System.out.print("컴퓨터 > ");
+                colStr = in.next();
+                row = in.nextInt();
+                board.game(colStr, row, "X");
+            }
+            board.print();
+
+            if (board.finish()) {
+                System.out.println("컴퓨터 승 ! 바둑 끝");
+                break;
+            }
+
+
+
+        }
+
+    }
+
+    private static void play(Board board, Player user, Player computer) {
+        board.print();
+    }
+}
