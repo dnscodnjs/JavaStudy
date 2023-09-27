@@ -1,0 +1,52 @@
+package User;
+
+import java.util.*;
+
+public class UserTable {
+    List<User> userList;
+    int no;
+
+    public UserTable() {
+        userList = new ArrayList<>();
+        no = 1;
+    }
+
+    public User getUser(int no, String id, String pwd, String name) {
+        return new User(no, id, pwd, name);
+    }
+    public boolean insert(String id, String pwd, String name) {
+        for (User user : userList) {
+            if (user.getId().equals(id)) {
+                return false;
+            }
+        }
+        User newUser = getUser(no++, id, pwd, name);
+        userList.add(newUser);
+        return true;
+    }
+
+    public User findUser(String id) {
+        for (User user : userList) {
+            if (user.getId().equals(id)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public boolean update(String id, String name, String pwd) {
+        for (User user : userList) {
+            if (user.getId().equals(id)) {
+                user.setName(name);
+                user.setPwd(pwd);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<User> getUserList() {
+        return userList;
+    }
+}
+  
