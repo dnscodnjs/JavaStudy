@@ -1,0 +1,79 @@
+package User;
+
+import java.util.Scanner;
+
+public class UserMain {
+    private static Scanner in = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        boolean flag = true;
+        UserTable userTable = new UserTable();
+
+        while (flag) {
+            System.out.println("1.회원등록 | 2.회원목록 | 3.회원상세 | 4.회원수정 | 5.종료");
+            System.out.print("입력] ");
+            int choice = in.nextInt();
+            in.nextLine(); // 개행 문자 처리
+
+            if (choice == 1) {
+                System.out.println("[회원등록]");
+                System.out.print("아이디: ");
+                String id = in.next();
+                System.out.print("비밀번호: ");
+                String pwd = in.next();
+                System.out.print("이름: ");
+                String name = in.next();
+
+                if (userTable.insert(id, pwd, name)) {
+                    System.out.println("회원등록 성공");
+                } else {
+                    System.out.println("중복된 아이디입니다.");
+                }
+            } else if (choice == 2) {
+
+                System.out.println("[회원목록]");
+                System.out.println("번호" + "\t" + "아이디" + "\t" + "비밀번호" + "\t" + "이름" );
+                for (User user : userTable.getUserList()) {
+                    System.out.println(user.getNo() + "\t" + user.getId() +
+                            "\t" + user.getPwd() + "\t" + user.getName());
+                }
+            } else if (choice == 3) {
+
+                System.out.println("[회원상세]");
+                System.out.print("아이디: ");
+                String id = in.next();
+                User user = userTable.findUser(id);
+                if (user != null) {
+                    System.out.println("번호: " + user.getNo());
+                    System.out.println("아이디: " + user.getId());
+                    System.out.println("이름: " + user.getName());
+                    System.out.println("비밀번호: " + user.getPwd());
+                } else {
+                    System.out.println("해당 아이디가 존재하지 않습니다.");
+                }
+            } else if (choice == 4) {
+                System.out.println("[회원수정]");
+                System.out.print("아이디: ");
+                String updateId = in.next();
+                User updateUser = userTable.findUser(updateId);
+                if (updateUser != null) {
+                    System.out.print("비밀번호: ");
+                    String newPwd = in.next();
+                    System.out.print("이름: ");
+                    String newName = in.next();
+                    if (userTable.update(updateId, newName, newPwd)) {
+                        System.out.println("정상적으로 수정되었습니다.");
+                    } else {
+                        System.out.println("해당 아이디가 존재하지 않습니다");
+                    }
+                } else {
+                    System.out.println("해당 아이디가 존재하지 않습니다.");
+                }
+            } else if (choice == 5) {
+                flag = false;
+            }
+
+        }
+        System.out.println("시스템 종료");
+    }
+}
